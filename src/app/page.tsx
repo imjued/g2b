@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import SyncButton from '@/app/components/SyncButton';
 
 // Force dynamic rendering to fetch fresh data on every request
 export const dynamic = 'force-dynamic';
@@ -35,7 +36,10 @@ export default async function Home() {
         <header className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">G2B 발주 모니터링</h1>
-            <p className="text-gray-500 mt-2">국토교통부 국토지리정보원 (코드: 1613436)</p>
+            <div className="flex items-center gap-4 mt-2">
+              <p className="text-gray-500">국토교통부 국토지리정보원 (코드: 1613436)</p>
+              <SyncButton />
+            </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex gap-6">
             <div className="text-center">
@@ -82,8 +86,8 @@ export default async function Home() {
                       <td className="px-6 py-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.type === 'service'
-                              ? 'bg-blue-100 text-blue-800'
-                              : 'bg-green-100 text-green-800'
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-green-100 text-green-800'
                             }`}
                         >
                           {item.type === 'service' ? '용역' : '물품'}
