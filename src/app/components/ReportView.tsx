@@ -50,8 +50,8 @@ export default function ReportView({ bids }: ReportViewProps) {
                 <button
                     onClick={() => setPeriod('week')}
                     className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${period === 'week'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
                         }`}
                 >
                     주간 (Weekly)
@@ -59,8 +59,8 @@ export default function ReportView({ bids }: ReportViewProps) {
                 <button
                     onClick={() => setPeriod('month')}
                     className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${period === 'month'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
                         }`}
                 >
                     월간 (Monthly)
@@ -74,17 +74,19 @@ export default function ReportView({ bids }: ReportViewProps) {
                     <p className="text-3xl font-bold text-blue-900 mt-1">{totalCount}</p>
                 </div>
                 {agencyStats.map(stat => (
-                    <div key={stat.name} className="bg-white p-4 rounded-xl border border-gray-200">
-                        <p className="text-sm text-gray-500 font-medium truncate" title={stat.name}>{stat.name}</p>
-                        <p className="text-2xl font-bold text-gray-900 mt-1">{stat.count}</p>
-                    </div>
+                    <a key={stat.name} href={`#${stat.name}`} className="block transition-transform hover:-translate-y-1">
+                        <div className="bg-white p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-sm">
+                            <p className="text-sm text-gray-500 font-medium truncate" title={stat.name}>{stat.name}</p>
+                            <p className="text-2xl font-bold text-gray-900 mt-1">{stat.count}</p>
+                        </div>
+                    </a>
                 ))}
             </div>
 
             {/* Grouped Tables */}
             <div className="space-y-8">
                 {Object.keys(grouped).map(agency => (
-                    <div key={agency} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div key={agency} id={agency} className="scroll-mt-24 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                         <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                             <h3 className="font-bold text-lg text-gray-800">{agency}</h3>
                             <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">{grouped[agency].length}건</span>

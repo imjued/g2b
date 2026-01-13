@@ -27,6 +27,19 @@ export interface BidItem {
     [key: string]: any;
 }
 
+export interface BidOpening {
+    bidNtceNo: string;
+    bidNtceNm: string;
+    dminsttNm: string;
+    opengDt: string; // Opening Date
+    opengResult: string; // e.g., 개찰완료
+    sucbidderNm: string; // Successful Bidder
+    sucbidderBizno: string;
+    sucbidAmt: string; // Winning Price
+    bidNtceUrl: string;
+    [key: string]: any;
+}
+
 export async function fetchBids(
     type: 'goods' | 'service',
     customStartDate?: string,
