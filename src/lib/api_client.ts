@@ -93,3 +93,56 @@ export async function fetchBids(
         return { items: [], totalCount: 0 };
     }
 }
+
+export async function fetchOpeningResults(
+    type: 'goods' | 'service',
+    customStartDate?: string,
+    customEndDate?: string,
+    pageNo: number = 1,
+    numOfRows: number = 100
+): Promise<{ items: BidOpening[], totalCount: number }> {
+    const endpoint = type === 'goods'
+        ? 'getOpengResultListInfoThng'
+        : 'getOpengResultListInfoServc';
+
+    const url = `https://apis.data.go.kr/1230000/as/ScsbidInfoService/${endpoint}`;
+
+    const startDate = customStartDate || getDateString(-5);
+    const endDate = customEndDate || getDateString(1);
+
+    try {
+        const params = {
+            serviceKey: API_KEY,
+            numOfRows,
+            pageNo,
+            inqryDiv: 1, // 1: Search by Date
+            inqryBgnDt: startDate,
+            inqryEndDt: endDate,
+            type: 'json',
+        };
+
+        const response = await axios.get(url, {
+            params,
+            responseType: 'text'
+        });
+
+        let data = response.data;
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data);
+            } catch (e) {
+                console.error('Failed to parse JSON response string (Openings):', e);
+            }
+        }
+
+        const body = data?.response?.body;
+        const items = body?.items || [];
+        const totalCount = Number(body?.totalCount || items.length);
+
+        return { items, totalCount };
+
+    } catch (error: any) {
+        console.error('API Request Failed (Openings):', error.message);
+        return { items: [], totalCount: 0 };
+    }
+}

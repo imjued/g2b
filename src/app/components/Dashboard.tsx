@@ -24,7 +24,7 @@ interface DashboardProps {
 
 export default function Dashboard({ bids, openings }: DashboardProps) {
     const [activeTab, setActiveTab] = useState<'bids' | 'openings'>('bids');
-    const [selected Agency, setSelectedAgency] = useState<string>('all');
+    const [selectedAgency, setSelectedAgency] = useState<string>('all');
 
     const data = activeTab === 'bids' ? bids : openings;
 

@@ -60,8 +60,6 @@ async function processBids(bids: BidItem[]) {
     }
     return newCount;
 }
-return newCount;
-}
 
 import { fetchOpeningResults, BidOpening } from './api_client';
 
@@ -116,8 +114,10 @@ export async function syncBids() {
         const servicesSaved = await processBids(serviceData.items);
 
         // 3. Fetch Openings
-        const openingData = await fetchOpeningResults(undefined, undefined, 1, 500);
-        const openingsSaved = await processOpenings(openingData.items);
+        const openingGoods = await fetchOpeningResults('goods', undefined, undefined, 1, 500);
+        const openingServices = await fetchOpeningResults('service', undefined, undefined, 1, 500);
+
+        const openingsSaved = (await processOpenings(openingGoods.items)) + (await processOpenings(openingServices.items));
 
         return {
             success: true,
@@ -125,7 +125,7 @@ export async function syncBids() {
             goodsSaved,
             servicesFound: serviceData.items.length,
             servicesSaved,
-            openingsFound: openingData.items.length,
+            openingsFound: openingGoods.items.length + openingServices.items.length,
             openingsSaved,
             totalNew: goodsSaved + servicesSaved + openingsSaved
         };
