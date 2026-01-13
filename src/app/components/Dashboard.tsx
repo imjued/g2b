@@ -85,18 +85,29 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 font-medium">기관 필터:</label>
-                        <select
-                            value={selectedAgency}
-                            onChange={(e) => setSelectedAgency(e.target.value)}
-                            className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-sm text-gray-600 font-medium mr-1">기관 필터:</span>
+                        <button
+                            onClick={() => setSelectedAgency('all')}
+                            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedAgency === 'all'
+                                    ? 'bg-gray-800 text-white shadow-sm'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                }`}
                         >
-                            <option value="all">전체 보기</option>
-                            {uniqueAgencies.map(agency => (
-                                <option key={agency} value={agency}>{agency}</option>
-                            ))}
-                        </select>
+                            전체
+                        </button>
+                        {uniqueAgencies.map(agency => (
+                            <button
+                                key={agency}
+                                onClick={() => setSelectedAgency(agency)}
+                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedAgency === agency
+                                        ? 'bg-blue-600 text-white shadow-sm'
+                                        : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                    }`}
+                            >
+                                {agency}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
@@ -133,7 +144,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                                             <td className="px-6 py-4">{item.agency}</td>
                                             <td className="px-6 py-4">
                                                 <span
-                                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.type === 'service'
+                                                    className={`inline-flex items-center justify-center px-2.5 h-6 rounded-full text-xs font-medium ${item.type === 'service'
                                                         ? 'bg-blue-100 text-blue-800'
                                                         : item.type === 'opening' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
                                                         }`}
