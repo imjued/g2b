@@ -31,12 +31,13 @@ export interface BidOpening {
     bidNtceNo: string;
     bidNtceNm: string;
     dminsttNm: string;
+    dminsttCd: string;
     opengDt: string; // Opening Date
-    opengResult: string; // e.g., 개찰완료
-    sucbidderNm: string; // Successful Bidder
-    sucbidderBizno: string;
-    sucbidAmt: string; // Winning Price
-    bidNtceUrl: string;
+    progrsDivCdNm: string; // Status: e.g., 개찰완료, 유찰
+    opengCorpInfo: string; // "Company^BizNo^Rep^Amount^Rate"
+    bidNtceUrl?: string; // Note: Raw object didn't show this, might need to construct it or finding another field?
+    // Raw headers showed: bidNtceNo, bidNtceOrd, bidClsfcNo, rbidNo, bidNtceNm, opengDt, prtcptCnum, opengCorpInfo, progrsDivCdNm, inptDt, rsrvtnPrceFileExistnceYn, ntceInsttCd, ntceInsttNm, dminsttCd, dminsttNm, opengRsltNtcCntnts
+    // Links in G2B usually constructed or separate.
     [key: string]: any;
 }
 

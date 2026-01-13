@@ -60,7 +60,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                             <p className="text-2xl font-bold text-blue-600">{data.length}</p>
                         </div>
                         <div className="text-center border-l pl-6">
-                            <p className="text-sm text-gray-500">오늘 {activeTab === 'bids' ? '공고' : '개찰'}</p>
+                            <p className="text-sm text-gray-500">오늘 {activeTab === 'bids' ? '입찰공고' : '개찰결과'}</p>
                             <p className="text-2xl font-bold text-green-600">{newTodayCount}</p>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                             className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'bids' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'
                                 }`}
                         >
-                            발주 목록
+                            입찰공고
                         </button>
                         <button
                             onClick={() => setActiveTab('openings')}
@@ -90,8 +90,8 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                         <button
                             onClick={() => setSelectedAgency('all')}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedAgency === 'all'
-                                    ? 'bg-gray-800 text-white shadow-sm'
-                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                ? 'bg-gray-800 text-white shadow-sm'
+                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                                 }`}
                         >
                             전체
@@ -101,8 +101,8 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                                 key={agency}
                                 onClick={() => setSelectedAgency(agency)}
                                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selectedAgency === agency
-                                        ? 'bg-blue-600 text-white shadow-sm'
-                                        : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                    ? 'bg-blue-600 text-white shadow-sm'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                                     }`}
                             >
                                 {agency}
@@ -144,7 +144,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                                             <td className="px-6 py-4">{item.agency}</td>
                                             <td className="px-6 py-4">
                                                 <span
-                                                    className={`inline-flex items-center justify-center px-2.5 h-6 rounded-full text-xs font-medium ${item.type === 'service'
+                                                    className={`inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-medium leading-none whitespace-nowrap ${item.type === 'service'
                                                         ? 'bg-blue-100 text-blue-800'
                                                         : item.type === 'opening' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
                                                         }`}
