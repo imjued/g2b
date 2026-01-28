@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Run Scraper
-        run: npx tsx scripts/scrape.ts
+        run: npm run api
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}

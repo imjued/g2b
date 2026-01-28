@@ -34,7 +34,8 @@ export async function fetchBids(
     customStartDate?: string,
     customEndDate?: string,
     pageNo: number = 1,
-    numOfRows: number = 100
+    numOfRows: number = 100,
+    bidName?: string
 ): Promise<{ items: BidItem[], totalCount: number }> {
     const endpoint = type === 'goods'
         ? 'getBidPblancListInfoThng'
@@ -46,7 +47,7 @@ export async function fetchBids(
     const endDate = customEndDate || getDateString(1);
 
     try {
-        const params = {
+        const params: any = {
             serviceKey: API_KEY,
             numOfRows,
             pageNo,
@@ -56,6 +57,10 @@ export async function fetchBids(
             type: 'json',
             // dminsttCd argument is ignored by this API service, so we fetch all and filter in caller.
         };
+
+        if (bidName) {
+            params.bidNtceNm = bidName; // G2B API Parameter for Bid Name
+        }
 
         const response = await axios.get(url, {
             params,
