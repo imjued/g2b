@@ -17,8 +17,16 @@ export default async function Home() {
     .order('date', { ascending: false })
     .limit(100);
 
+  const { data: lidarData } = await supabase
+    .from('g2b_bids')
+    .select('*')
+    .ilike('title', '%라이다%')
+    .order('date', { ascending: false })
+    .limit(100);
+
   const bids = bidsData || [];
   const openings = openingsData || [];
+  const lidar = lidarData || [];
 
-  return <Dashboard bids={bids} openings={openings} />;
+  return <Dashboard bids={bids} openings={openings} lidar={lidar} />;
 }

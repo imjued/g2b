@@ -20,13 +20,14 @@ interface Bid {
 interface DashboardProps {
     bids: Bid[];
     openings: Bid[];
+    lidar: Bid[];
 }
 
-export default function Dashboard({ bids, openings }: DashboardProps) {
-    const [activeTab, setActiveTab] = useState<'bids' | 'openings'>('bids');
+export default function Dashboard({ bids, openings, lidar }: DashboardProps) {
+    const [activeTab, setActiveTab] = useState<'bids' | 'openings' | 'lidar'>('bids');
     const [selectedAgency, setSelectedAgency] = useState<string>('all');
 
-    const data = activeTab === 'bids' ? bids : openings;
+    const data = activeTab === 'bids' ? bids : activeTab === 'openings' ? openings : lidar;
 
     // Get unique agencies for filter
     const uniqueAgencies = Array.from(new Set(data.map(item => item.agency).filter(Boolean)));
@@ -60,7 +61,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                             <p className="text-2xl font-bold text-blue-600">{data.length}</p>
                         </div>
                         <div className="text-center border-l pl-6">
-                            <p className="text-sm text-gray-500">오늘 {activeTab === 'bids' ? '입찰공고' : '개찰결과'}</p>
+                            <p className="text-sm text-gray-500">오늘 {activeTab === 'bids' ? '입찰공고' : activeTab === 'openings' ? '개찰결과' : '라이다'}</p>
                             <p className="text-2xl font-bold text-green-600">{newTodayCount}</p>
                         </div>
                     </div>
@@ -82,6 +83,13 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                                 }`}
                         >
                             개찰 목록
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('lidar')}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'lidar' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'
+                                }`}
+                        >
+                            라이다(LiDAR)
                         </button>
                     </div>
 
@@ -116,7 +124,7 @@ export default function Dashboard({ bids, openings }: DashboardProps) {
                         <table className="w-full text-left text-sm text-gray-600">
                             <thead className="bg-gray-50 text-xs uppercase font-semibold text-gray-500">
                                 <tr>
-                                    <th className="px-6 py-4">{activeTab === 'bids' ? '진행일자' : '개찰일자'}</th>
+                                    <th className="px-6 py-4">{activeTab === 'openings' ? '개찰일자' : '진행일자'}</th>
                                     <th className="px-6 py-4">공고명</th>
                                     <th className="px-6 py-4">수요기관</th>
                                     <th className="px-6 py-4">구분</th>
