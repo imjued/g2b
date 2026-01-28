@@ -5,33 +5,32 @@ import Dashboard from '@/app/components/Dashboard';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  // Keywords for partial matching to handle full names like "국토교통부 국토지리정보원"
+  // Construct OR query for Supabase: "agency.ilike.%Key1%,agency.ilike.%Key2%..."
   const targetKeywords = [
     '국토지리정보원',
     '국립해양조사원',
     '산림청',
     '국립산림과학원'
   ];
+  const orQuery = targetKeywords.map(k => `agency.ilike.%${k}%`).join(',');
 
-  const { data: allBids } = await supabase
+  const { data: bidsData } = await supabase
     .from('g2b_bids')
     .select('*')
+    .or(orQuery)
     .order('date', { ascending: false })
-    .limit(1000);
+    .limit(100);
 
-  const bids = (allBids || [])
-    .filter(b => targetKeywords.some(keyword => b.agency.includes(keyword)))
-    .slice(0, 100);
+  const bids = bidsData || [];
 
-  const { data: allOpenings } = await supabase
+  const { data: openingsData } = await supabase
     .from('g2b_openings')
     .select('*')
+    .or(orQuery)
     .order('date', { ascending: false })
-    .limit(1000);
+    .limit(100);
 
-  const openings = (allOpenings || [])
-    .filter(o => targetKeywords.some(keyword => o.agency.includes(keyword)))
-    .slice(0, 100);
+  const openings = openingsData || [];
 
   const { data: lidarData } = await supabase
     .from('g2b_bids')
