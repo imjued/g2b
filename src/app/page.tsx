@@ -5,11 +5,12 @@ import Dashboard from '@/app/components/Dashboard';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const targetAgencies = [
-    '국토교통부 국토지리정보원',
-    '해양수산부 국립해양조사원',
+  // Keywords for partial matching to handle full names like "국토교통부 국토지리정보원"
+  const targetKeywords = [
+    '국토지리정보원',
+    '국립해양조사원',
     '산림청',
-    '산림청 국립산림과학원'
+    '국립산림과학원'
   ];
 
   const { data: allBids } = await supabase
@@ -19,7 +20,7 @@ export default async function Home() {
     .limit(1000);
 
   const bids = (allBids || [])
-    .filter(b => targetAgencies.includes(b.agency))
+    .filter(b => targetKeywords.some(keyword => b.agency.includes(keyword)))
     .slice(0, 100);
 
   const { data: allOpenings } = await supabase
@@ -29,7 +30,7 @@ export default async function Home() {
     .limit(1000);
 
   const openings = (allOpenings || [])
-    .filter(o => targetAgencies.includes(o.agency))
+    .filter(o => targetKeywords.some(keyword => o.agency.includes(keyword)))
     .slice(0, 100);
 
   const { data: lidarData } = await supabase
