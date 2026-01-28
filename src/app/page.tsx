@@ -12,19 +12,25 @@ export default async function Home() {
     '산림청 국립산림과학원'
   ];
 
-  const { data: bidsData } = await supabase
+  const { data: allBids } = await supabase
     .from('g2b_bids')
     .select('*')
-    .in('agency', targetAgencies)
     .order('date', { ascending: false })
-    .limit(100);
+    .limit(1000);
 
-  const { data: openingsData } = await supabase
+  const bids = (allBids || [])
+    .filter(b => targetAgencies.includes(b.agency))
+    .slice(0, 100);
+
+  const { data: allOpenings } = await supabase
     .from('g2b_openings')
     .select('*')
-    .in('agency', targetAgencies)
     .order('date', { ascending: false })
-    .limit(100);
+    .limit(1000);
+
+  const openings = (allOpenings || [])
+    .filter(o => targetAgencies.includes(o.agency))
+    .slice(0, 100);
 
   const { data: lidarData } = await supabase
     .from('g2b_bids')
@@ -33,8 +39,6 @@ export default async function Home() {
     .order('date', { ascending: false })
     .limit(100);
 
-  const bids = bidsData || [];
-  const openings = openingsData || [];
   const lidar = lidarData || [];
 
   return <Dashboard bids={bids} openings={openings} lidar={lidar} />;
