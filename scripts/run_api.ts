@@ -6,11 +6,15 @@ import { supabase } from '../src/lib/supabase';
 import { sendDiscordAlert } from './notify_discord';
 
 // Helper to filter by agency
-const TARGET_AGENCY_CODE = '1613436';
+// 1613436: 국토지리정보원 (NGII)
+// 1192136: 국립해양조사원 (KHOA)
+// 1400000: 산림청 (KFS)
+// 1400262: 국립산림과학원 (NIFS)
+const TARGET_AGENCY_CODES = ['1613436', '1192136', '1400000', '1400262'];
 
 async function processAgencyBids(bids: any[]) {
     // Filter by Agency
-    const filtered = bids.filter(b => b.dminsttCd === TARGET_AGENCY_CODE);
+    const filtered = bids.filter(b => TARGET_AGENCY_CODES.includes(b.dminsttCd));
     return await saveBids(filtered, 'Agency');
 }
 

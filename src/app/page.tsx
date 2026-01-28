@@ -5,15 +5,19 @@ import Dashboard from '@/app/components/Dashboard';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
+  const targetAgencies = ['국토지리정보원', '국립해양조사원', '산림청', '국립산림과학원'];
+
   const { data: bidsData } = await supabase
     .from('g2b_bids')
     .select('*')
+    .in('agency', targetAgencies)
     .order('date', { ascending: false })
     .limit(100);
 
   const { data: openingsData } = await supabase
     .from('g2b_openings')
     .select('*')
+    .in('agency', targetAgencies)
     .order('date', { ascending: false })
     .limit(100);
 
